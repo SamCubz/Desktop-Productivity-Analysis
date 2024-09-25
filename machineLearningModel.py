@@ -4,7 +4,6 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import SGDRegressor
 import pickle
-import os
 
 class trainLinearModel:
 
