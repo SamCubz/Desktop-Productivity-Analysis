@@ -6,7 +6,6 @@ I know a lot of people in college who have attention problems, including myself.
 **Desktop Wizard Productivity Analysis** is a Python-based application designed to monitor and analyze user productivity by collecting data from keyboard and mouse interactions. The program processes this data to predict periods of inactivity and recommend optimal break times, thereby helping to optimize the work-rest cycle.
 
 ## Future Plans
-- Integrating MachineLearningModel.py
 - Scaling the data storage capabilities
 - Implementing a wizard assistant to make the user interface more interactive
 - Streamline data collection
@@ -21,29 +20,18 @@ I know a lot of people in college who have attention problems, including myself.
 
 # All Parameters
 ## Mouse Regular Parameters
-- Start Time
-- End Time
 - Inactivity Duration
-- Time of Day
-- Week Day
-- Session Number
-
-## Mouse Rate Parameters
 - Speed
 - Movement Accuracy
 - Clicking Accuracy
 - Direction Changes
 
 ## Keyboard Regular Parameters
-- Start Time
-- End Time
 - Inactivity Duration
-- Time of Day
-- Week Day
-- Session Number
-
-## Keyboard Rate Parameters
 - Speed
 - Accuracy
 - Time
 - Cluster Length
+
+##Bugs
+Currently working out how to integrate machinelearning.py fully into the application. There are some errors.
