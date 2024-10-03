@@ -160,6 +160,7 @@ class trainLinearModel:
         except Exception as e:
             print("Model does not exist!")
             try: #now just training a model
+                self.loadCSVData()
                 self.fullyTrain()
             except:
                 print("No data to be read!")
