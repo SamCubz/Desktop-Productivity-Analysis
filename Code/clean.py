@@ -84,6 +84,7 @@ class Processing:
     
     def mainStorageFunction(self):
 
+        #stores the combined metrics
         currentTime = time.time()
 
         #taking averages
@@ -108,14 +109,17 @@ class Processing:
         self.combinedDF.reset_index(drop = True, inplace = True)
 
     def inactivityDuration(self):
+        #loading in copies to be safe
         keyboardData = self.keyboardDF[["objectType", 'kSpeed', 'kAccuracy', 'avgTime', 'ClusterLength',  "startTime", "endTime"]]
         mouseData = self.mouseDF[["objectType", 'MAverageSpeed','MmovementAccuracy', 'MclickingAccuracy', 'DirectionChanges', "startTime", "endTime"]]
 
+        #Getting the inactivity duration
         combinedDF = pd.concat([keyboardData, mouseData], ignore_index = True)
         combinedDF.sort_values(by = "startTime", inplace= True)
+        combinedDF["inactivityDuration"] = (combinedDF["startTime"].shift(-1) - self.combinedDF["endTime"]).clip(lower = 0)
         combinedDF.reset_index(drop = True, inplace = True)
         
-        #creating the separate ones
+        #updating the separate dataframes
         self.keyboardDF = combinedDF[combinedDF["objectType"] == "Cluster"][['kSpeed', 'kAccuracy', 'avgTime', 'ClusterLength', "inactivityDuration"]].copy()
         self.mouseDF = combinedDF[combinedDF["objectType"] == "Mouse"][['MAverageSpeed','MmovementAccuracy', 'MclickingAccuracy', 'DirectionChanges', "inactivityDuration"]].copy()
 
