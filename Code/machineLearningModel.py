@@ -53,7 +53,7 @@ class trainLinearModel:
 
         #splitting the data into training and testing
         XMtrain, XMtest, YMtrain, YMtest = train_test_split(xMouse, yMouse, test_size= 0.25, random_state= 14)
-        XKtrain, XKtest, YKtrain, YKtest = train_test_split(xKeyboard, yKeyboard, train_size=0.25, random_state= 14)
+        XKtrain, XKtest, YKtrain, YKtest = train_test_split(xKeyboard, yKeyboard, test_size=0.25, random_state= 14)
 
         #establishing pipelines 
         mousePipeline = Pipeline([
