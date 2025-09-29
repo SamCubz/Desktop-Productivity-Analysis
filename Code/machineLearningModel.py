@@ -103,26 +103,6 @@ class trainLinearModel:
         self.bestMouse.fit(xMouse, yMouse)
         self.bestKeyboard.fit(xKeyboard, yKeyboard)
 
-    def partiallyTrain(self, newMouseData, newKeyboardData):
-
-        #organizing the data
-        xMouse = newMouseData.loc[:, newMouseData.columns != "inactivityDuration"]
-        xKeyboard = newKeyboardData.loc[:, newKeyboardData.columns != "inactivityDuration"]
-
-        yMouse = newMouseData["inactivityDuration"]
-        yKeyboard = newKeyboardData["inactivityDuration"]
-
-        #determining hte learning rates, then decrease them
-        mouseLearningRate = self.bestMouse.get_params()['regressor__eta0']
-        keyboardLearningRate = self.bestKeyboard.get_params()["regressor__eta0"]
-
-        self.bestMouse.set_params(eta0 = mouseLearningRate * 0.90)
-        self.bestKeyboard.set_params(eta0 = keyboardLearningRate * 0.90)
-
-        #partially fit the model
-        self.bestMouse.partial_fit(xMouse, yMouse)
-        self.bestKeyboard.partial_fit(xKeyboard, yKeyboard)
-
 
     def modelToStorage(self):
         

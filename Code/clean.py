@@ -6,12 +6,16 @@ class Processing:
 
     def __init__(self, mouseDF, keyboardDF, sessionNumber, timeOfDay, sessionTime, completeSessionStart, model, collectionStatus):
         
+        #Start time of the overall session
         self.completeSessionStart = completeSessionStart
         
-        self.sessionNumber = sessionNumber
-
+        #Start time of the immediate session
         self.sessionTime = sessionTime
 
+        #Numerical value assigned with the session
+        self.sessionNumber = sessionNumber
+
+        #Setting the time of the day and the weekdays
         self.timeOfDay = self.determineTimeOfDay(timeOfDay.time().hour)
         self.weekDay = timeOfDay.weekday()
 
@@ -116,7 +120,7 @@ class Processing:
         #Getting the inactivity duration
         combinedDF = pd.concat([keyboardData, mouseData], ignore_index = True)
         combinedDF.sort_values(by = "startTime", inplace= True)
-        combinedDF["inactivityDuration"] = (combinedDF["startTime"].shift(-1) - self.combinedDF["endTime"]).clip(lower = 0)
+        combinedDF["inactivityDuration"] = (combinedDF["startTime"].shift(-1) - combinedDF["endTime"]).clip(lower = 0)
         combinedDF.reset_index(drop = True, inplace = True)
         
         #updating the separate dataframes

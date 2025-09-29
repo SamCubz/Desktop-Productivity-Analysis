@@ -13,23 +13,26 @@ from machineLearningModel import trainLinearModel
 class Base:
 
     def __init__(self, root):
+
+        #Setting the root instance
         self.root = root
         self.inSession = [True]
 
-        #attributes that'll be added to the thing
+        #values that'll be added at the end of the dataframe
         self.sessionStart = time.time()
         self.sessionNumber = 0
 
-        #in progress
+        #Setting the combined dataframe
         self.combinedDF = pd.DataFrame( columns = ["Session Number", "Session Length", "DayOfWeek"] )
 
-        self.model = trainLinearModel("mouseFile.csv", "keyboardFile.csv", "mouseModel.csv", "keyboardModel.csv")
-
+        #Works if you want the model pulled from storage
+        self.model = trainLinearModel("../mouseFile.csv", "../keyboardFile.csv", "../mouseModel.csv", "../keyboardModel.csv")
         self.collectionStatus = input("Enter \"Y\" if you want predictions: ")
         if self.collectionStatus == "Y":
             self.model.startSession()
 
     def checkActivity(self, event = None):
+        print("Got here")
         if self.sessionNumber > 0:
             if self.inSession[0]:
                 self.inSession[0] = False
@@ -47,16 +50,17 @@ class Base:
 
     def startDataCollection(self):
 
-        #the queue to add the data in
+        #Creating mouse and keyboard queue data
         self.mouseDataQueue = queue.Queue()
         self.keyboardDataQueue = queue.Queue()
 
-        #the listeners
+        #Setting up the two listening modules to send data into the queue
         self.MouseListener = MouseListening(self.mouseDataQueue)
         self.keyboardListener = KeyboardListener(self.keyboardDataQueue)
 
-        self.mouseDF = pd.DataFrame( columns= ["uniqueCounter", "startTime", "endTime", "MAverageSpeed", "MmovementAccuracy", "MclickingAccuracy", "DirectionChanges"])
-        self.keyboardDF = pd.DataFrame( columns= ["uniqueCounterKeys", "kSpeed", "kAccuracy", "avgTime", "startTime", "endTime", "ClusterLength"])  
+        #Setting the dataframes with all the columns
+        self.mouseDF = pd.DataFrame( columns= ["objectType", "uniqueCounter", "startTime", "endTime", "MAverageSpeed", "MmovementAccuracy", "MclickingAccuracy", "DirectionChanges"])
+        self.keyboardDF = pd.DataFrame( columns= ["objectType","uniqueCounterKeys", "kSpeed", "kAccuracy", "avgTime", "startTime", "endTime", "ClusterLength"])  
 
         timeOfDay = datetime.now()
 
@@ -98,9 +102,9 @@ class Base:
 if __name__ == "__main__":
     root = tk.Tk()
 
-    #setting all the attributes
+    #setting all the attributes of the tkinter window
     root.overrideredirect(True)
-    image_path = "Chatbot/Wizard.png"
+    image_path = "./Wizard.png"
     image = Image.open(image_path).convert("RGBA").resize((100,100))
     photo_image = ImageTk.PhotoImage(image)
     canvas = tk.Canvas(root, width = root.winfo_screenwidth(), height = root.winfo_screenheight(), bg = "pink", highlightthickness= 0)
@@ -108,8 +112,12 @@ if __name__ == "__main__":
     canvas.pack()
     x, y = root.winfo_screenwidth() - 100, root.winfo_screenheight() - 100
     image_id = canvas.create_image(x, y, anchor=tk.NW, image=photo_image)
+
+    #initializing the application
     app = Base(root)
-    root.bind('<Button-2>', app.checkActivity)
+
+    #Need to his the second arrow to get the application to work
+    root.bind('<Button-1>', app.checkActivity)
     root.mainloop()
     
     #ending the model to send out the data

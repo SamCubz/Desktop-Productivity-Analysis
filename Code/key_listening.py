@@ -38,7 +38,7 @@ class KeyboardListener:
     def __init__(self, dataQueue):
 
 
-        #the variables in ewach cluster object
+        #the variables in each cluster object
         self.numberOfKeys = 0
         self.clusterStartTime = None
         self.clusterEndTime = None
