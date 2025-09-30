@@ -28,8 +28,8 @@ class trainLinearModel:
         """Getting the CSV data"""
 
         #loading the CSV's
-        self.keyboardDF = pd.read_csv(self.keyboardFilePath)
-        self.mouseDF = pd.read_csv(self.mouseFilePath)
+        self.keyboardDF = pd.read_csv("./keyboardFile.csv" )#self.keyboardFilePath)
+        self.mouseDF = pd.read_csv("./mouseFile.csv")  #self.mouseFilePath)
 
         #dropping the null rows
         self.keyboardDF.dropna(inplace = True)
@@ -39,10 +39,8 @@ class trainLinearModel:
         self.keyboardDF = self.keyboardDF.astype("float")
         self.mouseDF = self.mouseDF.astype("float")
 
+
     def fullyTrain(self):
-        
-        #resetting the dataframes
-        self.loadCSVData()
 
         #organizing the data
         xMouse = self.mouseDF.loc[:, self.mouseDF.columns != "inactivityDuration"]
@@ -95,9 +93,11 @@ class trainLinearModel:
         self.bestMouse = mouseGrid.best_estimator_
         self.bestMousePerformance = self.bestMouse.score(XMtest, YMtest)
 
+
         #Getting the best predictor for the keyboard, and the score
         self.bestKeyboard = keyboardGrid.best_estimator_
         self.bestKeyboardPerformance = self.bestKeyboard.score(XKtest, YKtest)
+
 
         #Fitting the models
         self.bestMouse.fit(xMouse, yMouse)
@@ -150,3 +150,8 @@ class trainLinearModel:
             self.modelToStorage()
         except Exception as e:
             print("Error loading the model")
+
+
+if __name__ == "__main__":
+    model = trainLinearModel("../mouseFile.csv", "../keyboardFile.csv", "../mouseModel.csv", "../keyboardModel.csv")
+    model.startSession()

@@ -67,7 +67,8 @@ class Processing:
         self.uniqueMouseCounter += 1
         self.mouseDF = pd.concat([self.mouseDF, pd.DataFrame([mathdict])], axis = 0, ignore_index= True)
         if self.collectionStatus == "Y":
-            print(self.model.estimateInactivityFromMouse(pd.DataFrame([mathdict])))
+            expected_features = self.model.bestMouse.named_steps['scaler'].feature_names_in_
+            print("mouseTime", self.model.estimateInactivityFromMouse(pd.DataFrame([mathdict])[expected_features]))
 
     def processKeyboard(self, objectOfInterest):
         objectOfInterest.calculateVals()
@@ -84,7 +85,8 @@ class Processing:
         self.keyboardDF = pd.concat([self.keyboardDF, pd.DataFrame([mathdict])], axis = 0, ignore_index= True)
         self.uniqueKeyboardCounter += 1
         if self.collectionStatus == "Y":
-            print(self.model.estimateInactivityFromKeyboard(pd.DataFrame([mathdict])))
+            expected_features = self.model.bestKeyboard.named_steps['scaler'].feature_names_in_
+            print("Keyboard Time", self.model.estimateInactivityFromKeyboard(pd.DataFrame([mathdict])[expected_features]))
     
     def mainStorageFunction(self):
 

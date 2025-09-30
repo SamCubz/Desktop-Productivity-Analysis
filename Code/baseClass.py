@@ -10,6 +10,9 @@ import time
 from datetime import datetime
 from machineLearningModel import trainLinearModel
 
+import warnings
+warnings.simplefilter(action ='ignore', category=FutureWarning)
+
 class Base:
 
     def __init__(self, root):
